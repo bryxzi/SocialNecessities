@@ -3,7 +3,7 @@
       {
         "username": "user1",
         "email": "user1@example.com",
-        "password": "$2a$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // can replace with prehashed passwords uding btcript
+        "password": "$2a$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
       },
       {
         "username": "user2",
