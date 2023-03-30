@@ -1,0 +1,31 @@
+{
+    "users": [
+      {
+        "username": "user1",
+        "email": "user1@example.com",
+        "password": "$2a$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // can replace with prehashed passwords uding btcript
+      },
+      {
+        "username": "user2",
+        "email": "user2@example.com",
+        "password": "$2a$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
+      }
+    ],
+    "posts": [
+      {
+        "body": "This is a sample post by user1.",
+        "username": "user1",
+        "tags": ["tag1", "tag2"],
+        "isPrivate": false,
+        "createdAt": "2023-01-01T00:00:00Z"
+      },
+      {
+        "body": "This is another sample post by user2.",
+        "username": "user2",
+        "tags": ["tag3", "tag4"],
+        "isPrivate": true,
+        "createdAt": "2023-01-02T00:00:00Z"
+      }
+    ]
+  }
+  
