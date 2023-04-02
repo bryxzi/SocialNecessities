@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 //change to my database
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/your_database_name';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://mainuser:<password>@clustersocialmedia0.93bcet0.mongodb.net/test';
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
