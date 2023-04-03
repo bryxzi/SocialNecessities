@@ -1,38 +1,31 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 
-import LoginPage from './pages/UserAuth/LoginPage';
-import SignupPage from './pages/UserAuth/SignupPage';
-import CreatePostPage from './pages/Posts/CreatePostPage';
-import EditPostPage from './pages/Posts/EditPostPage';
-import PostDetailsPage from './pages/Posts/PostDetailsPage';
-import PublicPostsPage from './pages/Posts/PublicPostsPage';
-import Header from './components/DeletePost';
+import Home from './components/Home.js';
+import Login from './components/Login.js';
+import MenuBar from './components/MenuBar.js';
+import DetailPage from './components/PostDetail.js';
+import Register from './components/Register.js';
+import { AuthProvider } from './auth/auth';
+import AuthRoute from './utils/AuthRoute';
 
-
-// Create the Apollo Client
-const client = new ApolloClient({
-  uri: 'http://localhost:3001/graphql',
-  cache: new InMemoryCache(),
-});
-
-const App = () => {
+function App() {
   return (
-    <ApolloProvider client={client}>
+    <AuthProvider>
       <Router>
-      <Header />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/create-post" element={<CreatePostPage />} />
-          <Route path="/edit-post/:id" element={<EditPostPage />} />
-          <Route path="/post/:id" element={<PostDetailsPage />} />
-          <Route path="/" element={<PublicPostsPage />} />
-        </Routes>
+        <Container>
+          <MenuBar />
+          <Routes>
+            <Route path='/' element={<AuthRoute><Home /></AuthRoute>} />
+            <Route path='/post/:postId' element={<AuthRoute><DetailPage /></AuthRoute>} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Routes>
+        </Container>
       </Router>
-    </ApolloProvider>
+    </AuthProvider>
   );
-};
+}
 
 export default App;
