@@ -2,13 +2,12 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 //change to my database
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://mainuser:<password>@clustersocialmedia0.93bcet0.mongodb.net/test';
+const MONGODB_URI = "mongodb+srv://mainuser:Newuser1@clustersocialmedia0.93bcet0.mongodb.net/social_media_db?retryWrites=true&w=majority";
+
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
 });
 
 mongoose.connection.on('connected', () => {
@@ -31,4 +30,3 @@ process.on('SIGINT', () => {
 });
 
 module.exports = mongoose.connection;
-
