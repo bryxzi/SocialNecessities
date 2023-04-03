@@ -1,10 +1,23 @@
-const { makeExecutableSchema } = require('graphql-tools');
-const typeDefs = require('./typedefs');
-const resolvers = require('./resolvers');
+const postResolvers = require('./resolvers/posts');
+const userResolvers = require('./resolvers/users');
+const commentResolvers = require('./resolvers/comments');
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
+module.exports = {
+    Post: {
+        likesCount: (parent) => parent.likes.length,
+        commentsCount: (parent) => parent.comments.length
+    },
+    Query: {
+        ...postResolvers.Query,
+        ...userResolvers.Query
+    },
 
-module.exports = schema;
+    Mutation: {
+        ...userResolvers.Mutation,
+        ...postResolvers.Mutation,
+        ...commentResolvers.Mutation
+    },
+    Subscription: {
+        ...postResolvers.Subscription
+    }
+}

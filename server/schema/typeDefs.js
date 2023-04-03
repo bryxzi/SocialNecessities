@@ -1,47 +1,63 @@
-const { gql } = require('apollo-server-express');
+const gql = require('graphql-tag');
 
 module.exports = gql`
-  type Post {
-    id: ID!
-    body: String!
-    createdAt: String!
-    username: String!
-    tags: [String]!
-    likes: [Like]!
-    isPrivate: Boolean!
-  }
+    type Post {
+        id: ID!
+        content: String
+        createdAt: String
+        username: String
+        comments: [Comment]!
+        likes: [Like]!
+        likesCount: Int!
+        commentsCount: Int!
+    }
 
-  type Like {
-    id: ID!
-    createdAt: String!
-    username: String!
-  }
+    type Comment {
+        id: ID!
+        username: String!
+        content: String!
+        createdAt: String!
+    }
 
-  type User {
-    id: ID!
-    email: String!
-    token: String!
-    username: String!
-    createdAt: String!
-  }
+    type Like {
+        id: ID!
+        username: String!
+        createdAt: String!
+    }
 
-  input RegisterInput {
-    username: String!
-    password: String!
-    confirmPassword: String!
-    email: String!
-  }
+    type User {
+        id: ID!
+        username: String!
+        password: String
+        token: String!
+        email: String!
+        createdAt: String
+    }
 
-  type Query {
-    getPosts: [Post]
-    getPost(postId: ID!): Post
-  }
+    input RegisterInput {
+        username: String!
+        email: String!
+        password: String!
+        confirmPassword: String!
+    }
 
-  type Mutation {
-    register(registerInput: RegisterInput): User!
-    login(username: String!, password: String!): User!
-    createPost(body: String!, tags: [String]!, isPrivate: Boolean!): Post!
-    deletePost(postId: ID!): String!
-    likePost(postId: ID!): Post!
-  }
+    type Query {
+        getPosts: [Post],
+        getPost(postId: ID!): Post
+        getUsers: [User!]!
+    }
+
+    type Mutation {
+        register(registerInput: RegisterInput): User!,
+        login(username: String!, password: String!): User!,
+        createPost(content: String!): Post!,
+        deletePost(id: ID!): String!,
+        createComment(postId: ID!, content: String!): Post!,
+        deleteComment(postId: ID!, commentId: ID!): Post!,
+        likePost(postId: ID!): Post!
+    }
+
+    type Subscription {
+        newPost: Post!
+    }
 `;
