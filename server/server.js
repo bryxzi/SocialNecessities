@@ -1,59 +1,65 @@
-const express = require("express");
-const { ApolloServer } = require("apollo-server-express");
-const path = require("path");
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config({ path: '../.env' }); 
 
-const typeDefs = require("./schema/typedefs");
-const resolvers = require("./schema/resolvers");
-const db = require("./config/config");
+const { createServer } = require('http');
+const { subscribe, execute } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const { PubSub } = require('graphql-subscriptions');
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const mongoose = require('mongoose');
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+const resolvers = require('./schema');
+const typeDefs = require('./schema/typeDefs');
+const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
+const PORT = process.env.PORT || 5000;
 
-const auth = require('./auth/auth')(process.env.JWT_SECRET);
-const { generateToken, checkAuth } = auth;
+mongoose.connect(process.env.DB_URI).then(() => {
+    console.log('DB connected!!');
+}).catch(err => console.log(err));
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req }) => ({ req, user: checkAuth(req) }),
+(async (typeDefs, resolvers) => {
+    const app = express();
+    const schema = makeExecutableSchema({ typeDefs, resolvers });
+    const httpServer = createServer(app);
+    const pubSub = new PubSub();
 
-});
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use((req, res, next) => {
-  req.headers.authorization = req.headers.authorization || '';
-  next();
-});
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-}
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
-
-const startApolloServer = async () => {
-  await server.start();
-  server.applyMiddleware({ app });
-
-  db.once("open", () => {
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    const server = new ApolloServer({ 
+        schema,
+        context: ({req}) => ({ req, pubSub }),
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), {
+            async serverWillStart() {
+                return {
+                    async drainServer() {
+                        subscriptionServer.close();
+                    }
+                }
+            }
+        }],
     });
-  });
-};
 
-app.use(function (err, req, res, next) {
-    console.error(err.stack);
-    res.status(500).send("Internal Server Error");
-  });
-  
+    const subscriptionServer = SubscriptionServer.create({
+        schema,
+        execute,
+        subscribe,
+        async onConnect() {
+            console.log('Connected!');
+            return {
+                pubSub
+            }
+        },
+        onDisconnect() {
+            console.log('Disconnected!');
+        }
+    }, {
+        server: httpServer,
+        path: server.graphqlPath
+    })
 
-startApolloServer()
-  .catch((error) => {
-    console.error("Error starting Apollo Server:", error);
-  });
+    await server.start();
+    server.applyMiddleware({ app });
+
+    await new Promise(resolve => httpServer.listen({ port: PORT }, resolve));
+    console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+})(typeDefs, resolvers);
