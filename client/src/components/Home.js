@@ -2,8 +2,8 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useContext } from 'react';
 import { Grid, Transition } from 'semantic-ui-react'
-import { AuthContext } from '../context/auth';
-import { GET_POSTS } from '../utils/graphqlQueries';
+import { AuthContext } from '../auth/auth';
+import { GET_POSTS } from '../utils/queries';
 import AddPost from './AddPost';
 import Card from './Card';
 

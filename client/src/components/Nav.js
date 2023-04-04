@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../auth/auth';
 
 export default function MenuBar () {
     const pathname = window.location.pathname;

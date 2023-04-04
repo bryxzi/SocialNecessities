@@ -2,8 +2,8 @@ import React from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth";
-import { REGISTER_USER } from "../utils/graphqlQueries";
+import { AuthContext } from "../auth/auth";
+import { REGISTER_USER } from "../utils/queries";
 import { useForm } from "../utils/hooks";
 import {
     Button,

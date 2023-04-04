@@ -3,8 +3,8 @@ import { useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth";
-import { LOGIN_USER } from "../utils/graphqlQueries";
+import { AuthContext } from "../auth/auth";
+import { LOGIN_USER } from "../utils/queries";
 import { useForm } from "../utils/hooks";
 import {
   Button,

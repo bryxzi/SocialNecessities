@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { Button, Confirm, Icon, Popup } from "semantic-ui-react";
-import { DELETE_COMMENT, DELETE_POST, GET_POSTS } from "../utils/graphqlQueries";
+import { DELETE_COMMENT, DELETE_POST, GET_POSTS } from "../utils/queries";
 
 
 export default function DeletePost ({ postId, commentId, callback}) {

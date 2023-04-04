@@ -3,8 +3,8 @@ import { Button, Card, Icon, Image, Label, Popup } from "semantic-ui-react";
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { useContext } from "react";
-import { AuthContext } from "../context/auth";
-import LikeButton from "./LikeButton";
+import { AuthContext } from "../auth/auth";
+import LikeButton from "./Like";
 import DeletePost from "./DeletePost";
 
 

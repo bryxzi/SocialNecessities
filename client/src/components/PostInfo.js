@@ -5,10 +5,10 @@ import { useState } from "react";
 import { useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Form, Grid, Icon, Image, Label } from "semantic-ui-react";
-import { AuthContext } from "../context/auth";
-import { CREATE_COMMENT, GET_POST } from "../utils/graphqlQueries";
+import { AuthContext } from "../auth/auth";
+import { CREATE_COMMENT, GET_POST } from "../utils/queries";
 import DeletePost from "./DeletePost";
-import LikeButton from "./LikeButton";
+import LikeButton from "./Like";
 
 
 export default function DetailPage () {

@@ -5,8 +5,8 @@ import { useContext } from "react";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 import { Button, Icon, Label, Popup } from "semantic-ui-react";
-import { AuthContext } from "../context/auth";
-import { LIKE_POST } from "../utils/graphqlQueries";
+import { AuthContext } from "../auth/auth";
+import { LIKE_POST } from "../utils/queries";
 
 
 export default function LikeButton ({ post: {id, likesCount, likes} }) {
