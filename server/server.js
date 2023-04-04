@@ -27,7 +27,7 @@ mongoose.connect(process.env.DB_URI).then(() => {
   const pubSub = new PubSub();
 
   // Serve the static files from the React app
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../client/dist')));
 
   const server = new ApolloServer({
     schema,
@@ -66,8 +66,9 @@ mongoose.connect(process.env.DB_URI).then(() => {
 
   // Handles any requests that don't match the ones above
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
+  
 
   await new Promise(resolve => httpServer.listen({ port: PORT }, resolve));
   console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
