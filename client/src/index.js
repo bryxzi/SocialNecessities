@@ -8,8 +8,7 @@ import './index.css';
 import App from './App';
 
 const httpLink = createHttpLink({
-    uri: process.env.REACT_APP_API_URL || 'http://localhost:3000/graphql',
-
+    uri: process.env.REACT_APP_GRAPHQL_ENDPOINT || 'http://localhost:3000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
