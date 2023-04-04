@@ -1,10 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path');
-const dotenv = require('dotenv');
-const webpack = require('webpack');
-
-const env = dotenv.config().parsed;
-
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: "./src/index.js",
@@ -41,7 +37,7 @@ module.exports = {
           },
         ],
       },
-      
+
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader", "postcss-loader"]
@@ -65,9 +61,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html'),
     }),
-    new webpack.DefinePlugin({
-        'process.env': JSON.stringify(env),
-      }),
+    new Dotenv({
+      path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env',
+    }),
   ],
-  
+
 };
