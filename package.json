@@ -5,7 +5,7 @@
     "main": "server/server.js",
     "scripts": {
         "start": "node server/server.js --ignore client",
-        "start-server": "node start-server.js",
+        "start-server": "node server/start-server.js",
         "heroku-postbuild": "cd client && npm ci && npm run build",
         "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
         "install": "cd server && npm i && cd ../client && npm i",
